@@ -8,39 +8,32 @@ function TreeNode(val, left, right) {
 
 var sumRootToLeaf = function(root) {
   const sumsArray = [];
+  let sum = 0;
 
-  // const tmpBranch = []
-  const recursiveSubSum = function(node, tmpBranch) {
-    // console.log('node: ', node);
+  const recursiveSubSum = function(node, subBinary) {
 
     if (node === null) {
-      // console.log('tmpBranch: ', tmpBranch);
-      // sumsArray.push([...tmpBranch]);
       return;
     }
 
-    tmpBranch.push(node.val);
-    // console.log('tmpBranch: ', tmpBranch);
-    // console.log('node.val: ', node.val);
-    // tmpBranch = tmpBranch.concat(node.val)
+    subBinary += node.val;
 
     if (node.hasOwnProperty('left') && node.left !== null) {
-      recursiveSubSum(node.left, [...tmpBranch]);
-      // console.log('tmpBranch: ', tmpBranch);
+      recursiveSubSum(node.left, subBinary);
     }
 
     if (node.hasOwnProperty('right') && node.right !== null) {
-      recursiveSubSum(node.right, [...tmpBranch]);
+      recursiveSubSum(node.right, subBinary);
     }
 
     if ((node.hasOwnProperty('left') && node.left === null) && (node.hasOwnProperty('right') && node.right === null)) {
-      sumsArray.push([...tmpBranch]);
+      sum += parseInt(subBinary, 2)
     }
   }
 
-  recursiveSubSum(root, []);
+  recursiveSubSum(root, '');
 
-  console.log('sumsArray: ', sumsArray);
+  return sum;
 };
 
 let root = null;
@@ -66,4 +59,3 @@ root = new TreeNode(
 );
 res = sumRootToLeaf(root);
 console.log('res: ', res);
-// res: [100, 101, 110, 111]
